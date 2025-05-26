@@ -112,7 +112,63 @@ class vNRSolarSource(fd_nest.nestNRSource):
         self.rates_vs_energy = tf.convert_to_tensor(df_CEvNS_solar['spectrum_value_norm'].values * scale, dtype=fd.float_type())
 
         super().__init__(*args, **kwargs)
+        
+@export
+class vNRSolarSourceDamien(fd_nest.nestNRSource):
+    """CEvNS background source from B8 + HEP neutrinos.
+    Reads in energy spectrum from .pkl file, generated with LZ's DMCalc.
+    Normalise such that the spectrum predicts 217.59 events in 1 tonne year.
+    """
 
+    def __init__(self, *args, fid_mass=1., livetime=1., **kwargs):
+        if ('detector' not in kwargs):
+            kwargs['detector'] = 'default'
+
+        df_CEvNS_solar = pd.read_pickle(os.path.join(os.path.dirname(__file__), 'background_spectra/CEvNS_solar_spectrum_Damien.pkl'))
+
+        self.energies = tf.convert_to_tensor(df_CEvNS_solar['energy_keV'].values, dtype=fd.float_type())
+        scale = fid_mass * livetime * 217.59
+        self.rates_vs_energy = tf.convert_to_tensor(df_CEvNS_solar['spectrum_value_norm'].values * scale, dtype=fd.float_type())
+
+        super().__init__(*args, **kwargs)
+        
+@export
+class vMigdalSolarSource(fd_nest.nestERSource):
+    """Migdal background source induced by CEvNS from B8 + HEP neutrinos.
+    Reads in energy spectrum from .pkl file, generated with LZ's DMCalc.
+    Normalise such that the spectrum predicts 246.345 CEvNS events in 1 tonne year correlated by Migdal probability.
+    """
+
+    def __init__(self, *args, fid_mass=1., livetime=1., **kwargs):
+        if ('detector' not in kwargs):
+            kwargs['detector'] = 'default'
+
+        df_Migdal_CEvNS_solar = pd.read_pickle(os.path.join(os.path.dirname(__file__), 'background_spectra/CEvNS_Migdal_solar_spectrum_Damien.pkl'))
+
+        self.energies = tf.convert_to_tensor(df_Migdal_CEvNS_solar['energy_keV'].values, dtype=fd.float_type())
+        scale = fid_mass * livetime * 0.4348
+        self.rates_vs_energy = tf.convert_to_tensor(df_Migdal_CEvNS_solar['spectrum_value_norm'].values * scale, dtype=fd.float_type())
+
+        super().__init__(*args, **kwargs)
+
+@export
+class vMigdalSolarSourceDamien(fd_nest.nestERSource):
+    """Migdal background source induced by CEvNS from B8 + HEP neutrinos.
+    Reads in energy spectrum from .pkl file, generated with LZ's DMCalc.
+    Normalise such that the spectrum predicts 246.345 CEvNS events in 1 tonne year correlated by Migdal probability.
+    """
+
+    def __init__(self, *args, fid_mass=1., livetime=1., **kwargs):
+        if ('detector' not in kwargs):
+            kwargs['detector'] = 'default'
+
+        df_Migdal_CEvNS_solar = pd.read_pickle(os.path.join(os.path.dirname(__file__), 'background_spectra/CEvNS_Migdal_solar_spectrum_Damien.pkl'))
+
+        self.energies = tf.convert_to_tensor(df_Migdal_CEvNS_solar['energy_keV'].values, dtype=fd.float_type())
+        scale = fid_mass * livetime * 0.43408114
+        self.rates_vs_energy = tf.convert_to_tensor(df_Migdal_CEvNS_solar['spectrum_value_norm'].values * scale, dtype=fd.float_type())
+
+        super().__init__(*args, **kwargs)
 
 @export
 class vNROtherSource(fd_nest.nestNRSource):

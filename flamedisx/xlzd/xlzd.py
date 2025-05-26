@@ -151,7 +151,7 @@ class XLZDNRSource(XLZDSource, fd.nest.nestNRSource):
 
 
 ##
-# Signal sources
+# Signal sources__init__
 ##
 
 
@@ -323,6 +323,80 @@ class XLZDvNRSolarSource(XLZDSource, fd.nest.vNRSolarSource, fd.nest.nestTempora
 
         super().__init__(*args, **kwargs)
 
+@export
+class XLZDvNRSolarSourceDamien(XLZDSource, fd.nest.vNRSolarSourceDamien, fd.nest.nestTemporalRateOscillationNRSource):
+    def __init__(self, *args, amplitude=None, phase_ns=None, period_ns=None, **kwargs):
+        if ('detector' not in kwargs):
+            kwargs['detector'] = 'xlzd'
+        if ('configuration' not in kwargs):
+            kwargs['configuration'] = '80t'
+
+        if amplitude is None:
+            self.amplitude = 2. * 0.01671
+        else:
+            self.amplitude = amplitude
+
+        if phase_ns is None:
+            self.phase_ns = pd.to_datetime('2022-01-04T00:00:00').value
+        else:
+            self.phase_ns = phase_ns
+
+        if period_ns is None:
+            self.period_ns = 1. * 3600. * 24. * 365.25 * 1e9
+        else:
+            self.period_ns = period_ns
+
+        super().__init__(*args, **kwargs)
+
+@export
+class XLZDvMigdalSolarSource(XLZDSource, fd.nest.vMigdalSolarSource, fd.nest.nestTemporalRateOscillationERSource):
+    def __init__(self, *args, amplitude=None, phase_ns=None, period_ns=None, **kwargs):
+        if ('detector' not in kwargs):
+            kwargs['detector'] = 'xlzd'
+        if ('configuration' not in kwargs):
+            kwargs['configuration'] = '80t'
+
+        if amplitude is None:
+            self.amplitude = 2. * 0.01671
+        else:
+            self.amplitude = amplitude
+
+        if phase_ns is None:
+            self.phase_ns = pd.to_datetime('2022-01-04T00:00:00').value
+        else:
+            self.phase_ns = phase_ns
+
+        if period_ns is None:
+            self.period_ns = 1. * 3600. * 24. * 365.25 * 1e9
+        else:
+            self.period_ns = period_ns
+
+        super().__init__(*args, **kwargs)
+
+@export
+class XLZDvMigdalSolarSourceDamien(XLZDSource, fd.nest.vMigdalSolarSourceDamien, fd.nest.nestTemporalRateOscillationERSource):
+    def __init__(self, *args, amplitude=None, phase_ns=None, period_ns=None, **kwargs):
+        if ('detector' not in kwargs):
+            kwargs['detector'] = 'xlzd'
+        if ('configuration' not in kwargs):
+            kwargs['configuration'] = '80t'
+
+        if amplitude is None:
+            self.amplitude = 2. * 0.01671
+        else:
+            self.amplitude = amplitude
+
+        if phase_ns is None:
+            self.phase_ns = pd.to_datetime('2022-01-04T00:00:00').value
+        else:
+            self.phase_ns = phase_ns
+
+        if period_ns is None:
+            self.period_ns = 1. * 3600. * 24. * 365.25 * 1e9
+        else:
+            self.period_ns = period_ns
+
+        super().__init__(*args, **kwargs)
 
 @export
 class XLZDvNROtherSource(XLZDSource, fd.nest.vNROtherSource, fd.nest.nestTemporalRateOscillationNRSource):
